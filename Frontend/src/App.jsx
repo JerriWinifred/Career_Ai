@@ -29,7 +29,7 @@ function App() {
   try {
 
     const res = await axios.post(
-      "http://127.0.0.1:8000/students",
+      "https://careerpilot-api-imgyd.onrender.com/students",
       student
     );
 
@@ -58,7 +58,7 @@ function App() {
     formData.append("course", student.course);
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/upload-resume",
+        "https://careerpilot-api-imgyd.onrender.com/upload-resume",
         formData,
         {
           headers: {
