@@ -1,8 +1,12 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "mysql+pymysql://root:@localhost/careerpilot"
+DATABASE_URL = os.environ["MYSQL_URL"]   # <-- use this
+
+print("DATABASE_URL =", DATABASE_URL)    # temporary debug
 
 engine = create_engine(DATABASE_URL)
 
