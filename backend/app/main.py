@@ -7,7 +7,6 @@ from app.database import models
 from app.database.models import Student
 
 from app.models.schemas import StudentCreate, StudentResponse
-
 from app.routes.resume import router as resume_router
 
 # ---------------------------------
@@ -26,9 +25,14 @@ app = FastAPI(
 # ---------------------------------
 # CORS
 # ---------------------------------
+origins = [
+    "http://localhost:5173",
+    "https://career-ai-pi-virid.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -66,6 +70,7 @@ def health():
     return {
         "status": "Healthy"
     }
+
 # ---------------------------------
 # Register Student
 # ---------------------------------
@@ -81,7 +86,6 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
     print("Existing Student:", existing_student)
 
     if existing_student:
-        print("Existing user found")
         return {
             "message": f"Welcome back, {existing_student.name}!",
             "existing": True,
@@ -92,8 +96,6 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
                 "course": existing_student.course
             }
         }
-
-    print("Creating New Student")
 
     new_student = Student(
         name=student.name,
@@ -120,19 +122,14 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
 # Get Students
 # ---------------------------------
 @app.get("/students", response_model=list[StudentResponse])
-def get_students(
-    db: Session = Depends(get_db)
-):
+def get_students(db: Session = Depends(get_db)):
     return db.query(Student).all()
 
 # ---------------------------------
 # Delete Student
 # ---------------------------------
 @app.delete("/students/{student_id}")
-def delete_student(
-    student_id: int,
-    db: Session = Depends(get_db)
-):
+def delete_student(student_id: int, db: Session = Depends(get_db)):
 
     student = db.query(Student).filter(
         Student.id == student_id
