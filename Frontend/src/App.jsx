@@ -29,9 +29,9 @@ function App() {
   try {
 
     const res = await axios.post(
-      "https://careerpilot-api-imgyd.onrender.com/students",
-      student
-    );
+  "https://careerpilot-api-mgyd.onrender.com/students",
+  student
+);
 
     alert(res.data.message);
 
@@ -58,8 +58,8 @@ function App() {
     formData.append("course", student.course);
     try {
       const res = await axios.post(
-        "https://careerpilot-api-imgyd.onrender.com/upload-resume",
-        formData,
+  "https://careerpilot-api-mgyd.onrender.com/upload-resume",
+  formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
